@@ -31,15 +31,13 @@ type AppScreen =
   | "confirmation";
 
 function App() {
-  const { business, location } =
-    restaurantSession;
+  const { business, location } = restaurantSession;
 
   /* =====================================================
      CART
   ===================================================== */
 
-  const [cart, setCart] =
-    useState<CartItem[]>([]);
+  const [cart, setCart] = useState<CartItem[]>([]);
 
   /* =====================================================
      SELECTED FOOD
@@ -66,8 +64,7 @@ function App() {
      SEARCH
   ===================================================== */
 
-  const [searchQuery, setSearchQuery] =
-    useState("");
+  const [searchQuery, setSearchQuery] = useState("");
 
   /* =====================================================
      CATEGORY
@@ -91,22 +88,18 @@ function App() {
 
   function addToCart(food: FoodItem) {
     setCart((currentCart) => {
-      const existingItem =
-        currentCart.find(
-          (item) =>
-            item.food.id === food.id,
-        );
+      const existingItem = currentCart.find(
+        (item) => item.food.id === food.id,
+      );
 
       if (existingItem) {
-        return currentCart.map(
-          (item) =>
-            item.food.id === food.id
-              ? {
-                  ...item,
-                  quantity:
-                    item.quantity + 1,
-                }
-              : item,
+        return currentCart.map((item) =>
+          item.food.id === food.id
+            ? {
+                ...item,
+                quantity: item.quantity + 1,
+              }
+            : item,
         );
       }
 
@@ -130,26 +123,20 @@ function App() {
     note: string,
   ) {
     setCart((currentCart) => {
-      const existingItem =
-        currentCart.find(
-          (item) =>
-            item.food.id === food.id,
-        );
+      const existingItem = currentCart.find(
+        (item) => item.food.id === food.id,
+      );
 
       if (existingItem) {
-        return currentCart.map(
-          (item) =>
-            item.food.id === food.id
-              ? {
-                  ...item,
-                  quantity:
-                    item.quantity +
-                    quantity,
-                  note:
-                    note ||
-                    item.note,
-                }
-              : item,
+        return currentCart.map((item) =>
+          item.food.id === food.id
+            ? {
+                ...item,
+                quantity:
+                  item.quantity + quantity,
+                note: note || item.note,
+              }
+            : item,
         );
       }
 
@@ -158,8 +145,7 @@ function App() {
         {
           food,
           quantity,
-          note:
-            note || undefined,
+          note: note || undefined,
         },
       ];
     });
@@ -196,13 +182,10 @@ function App() {
      REMOVE FROM CART
   ===================================================== */
 
-  function removeFromCart(
-    foodId: string,
-  ) {
+  function removeFromCart(foodId: string) {
     setCart((currentCart) =>
       currentCart.filter(
-        (item) =>
-          item.food.id !== foodId,
+        (item) => item.food.id !== foodId,
       ),
     );
   }
@@ -254,77 +237,61 @@ function App() {
   function createOrder(
     paymentMethod: PaymentMethod,
   ) {
-    const subtotal =
-      cart.reduce(
-        (total, item) =>
-          total +
-          item.food.price *
-            item.quantity,
-        0,
-      );
+    const subtotal = cart.reduce(
+      (total, item) =>
+        total +
+        item.food.price * item.quantity,
+      0,
+    );
 
     const serviceCharge = 0;
 
     const total =
       subtotal + serviceCharge;
 
-    const orderNumber =
-      `HK-${Math.floor(
-        1000 +
-          Math.random() *
-            9000,
-      )}`;
+    const orderNumber = `HK-${Math.floor(
+      1000 + Math.random() * 9000,
+    )}`;
 
-    const newOrder: CustomerOrder =
-      {
-        id: crypto.randomUUID(),
+    const newOrder: CustomerOrder = {
+      id: crypto.randomUUID(),
 
-        orderNumber,
+      orderNumber,
 
-        business,
+      business,
 
-        location,
+      location,
 
-        items: cart,
+      items: cart,
 
-        paymentMethod,
+      paymentMethod,
 
-        paymentStatus:
-          paymentMethod ===
-          "counter"
-            ? "unpaid"
-            : "paid",
+      paymentStatus:
+        paymentMethod === "counter"
+          ? "unpaid"
+          : "paid",
 
-        status: "confirmed",
+      status: "confirmed",
 
-        subtotal,
+      subtotal,
 
-        serviceCharge,
+      serviceCharge,
 
-        total,
+      total,
 
-        createdAt:
-          new Date().toISOString(),
-      };
+      createdAt:
+        new Date().toISOString(),
+    };
 
-    console.log(
-      "New order:",
-      newOrder,
-    );
+    console.log("New order:", newOrder);
 
-    setCurrentOrder(
-      newOrder,
-    );
+    setCurrentOrder(newOrder);
 
     setCart([]);
 
-    setSelectedPaymentMethod(
-      null,
-    );
+    setSelectedPaymentMethod(null);
 
-    setScreen(
-      "confirmation",
-    );
+    setScreen("confirmation");
   }
 
   /* =====================================================
@@ -340,12 +307,9 @@ function App() {
      */
 
     if (
-      paymentMethod ===
-        "esewa" ||
-      paymentMethod ===
-        "khalti" ||
-      paymentMethod ===
-        "card"
+      paymentMethod === "esewa" ||
+      paymentMethod === "khalti" ||
+      paymentMethod === "card"
     ) {
       setSelectedPaymentMethod(
         paymentMethod,
@@ -361,9 +325,7 @@ function App() {
      * need a payment screen.
      */
 
-    createOrder(
-      paymentMethod,
-    );
+    createOrder(paymentMethod);
   }
 
   /* =====================================================
@@ -371,26 +333,11 @@ function App() {
   ===================================================== */
 
   function handlePaymentSuccess() {
-    if (
-      !selectedPaymentMethod
-    ) {
+    if (!selectedPaymentMethod) {
       return;
     }
 
-    createOrder(
-      selectedPaymentMethod,
-    );
-  }
-
-  /* =====================================================
-     TRACK ORDER
-  ===================================================== */
-
-  function trackOrder() {
-    console.log(
-      "Track order:",
-      currentOrder,
-    );
+    createOrder(selectedPaymentMethod);
   }
 
   /* =====================================================
@@ -402,13 +349,11 @@ function App() {
 
     setSearchQuery("");
 
-    setSelectedCategory(
-      "Popular",
-    );
+    setSelectedCategory("Popular");
 
-    setSelectedPaymentMethod(
-      null,
-    );
+    setSelectedPaymentMethod(null);
+
+    setSelectedFood(null);
 
     setScreen("menu");
   }
@@ -417,65 +362,52 @@ function App() {
      CART TOTALS
   ===================================================== */
 
-  const itemCount =
-    cart.reduce(
-      (total, item) =>
-        total + item.quantity,
-      0,
-    );
+  const itemCount = cart.reduce(
+    (total, item) =>
+      total + item.quantity,
+    0,
+  );
 
-  const cartTotal =
-    cart.reduce(
-      (total, item) =>
-        total +
-        item.food.price *
-          item.quantity,
-      0,
-    );
+  const cartTotal = cart.reduce(
+    (total, item) =>
+      total +
+      item.food.price * item.quantity,
+    0,
+  );
 
   /* =====================================================
      SEARCH + CATEGORY FILTER
   ===================================================== */
 
   const normalizedSearch =
-    searchQuery
-      .trim()
-      .toLowerCase();
+    searchQuery.trim().toLowerCase();
 
-  const filteredFoods =
-    menuFoods.filter(
-      (food) => {
-        const matchesSearch =
-          normalizedSearch === "" ||
-          food.name
-            .toLowerCase()
-            .includes(
-              normalizedSearch,
-            ) ||
-          food.description
-            .toLowerCase()
-            .includes(
-              normalizedSearch,
-            ) ||
-          food.category
-            .toLowerCase()
-            .includes(
-              normalizedSearch,
-            );
+  const filteredFoods = menuFoods.filter(
+    (food) => {
+      const matchesSearch =
+        normalizedSearch === "" ||
+        food.name
+          .toLowerCase()
+          .includes(normalizedSearch) ||
+        food.description
+          .toLowerCase()
+          .includes(normalizedSearch) ||
+        food.category
+          .toLowerCase()
+          .includes(normalizedSearch);
 
-        const matchesCategory =
-          selectedCategory ===
-          "Popular"
-            ? food.popular === true
-            : food.category ===
-              selectedCategory;
+      const matchesCategory =
+        selectedCategory === "Popular"
+          ? food.popular === true
+          : food.category ===
+            selectedCategory;
 
-        return (
-          matchesSearch &&
-          matchesCategory
-        );
-      },
-    );
+      return (
+        matchesSearch &&
+        matchesCategory
+      );
+    },
+  );
 
   /* =====================================================
      FOOD DETAILS
@@ -505,15 +437,9 @@ function App() {
         onUpdateQuantity={
           updateQuantity
         }
-        onRemove={
-          removeFromCart
-        }
-        onUpdateNote={
-          updateNote
-        }
-        onCheckout={
-          openCheckout
-        }
+        onRemove={removeFromCart}
+        onUpdateNote={updateNote}
+        onCheckout={openCheckout}
       />
     );
   }
@@ -527,9 +453,7 @@ function App() {
       <CheckoutScreen
         cart={cart}
         onBack={backToCart}
-        onPlaceOrder={
-          placeOrder
-        }
+        onPlaceOrder={placeOrder}
       />
     );
   }
@@ -549,13 +473,8 @@ function App() {
           selectedPaymentMethod
         }
         onBack={() => {
-          setSelectedPaymentMethod(
-            null,
-          );
-
-          setScreen(
-            "checkout",
-          );
+          setSelectedPaymentMethod(null);
+          setScreen("checkout");
         }}
         onPaymentSuccess={
           handlePaymentSuccess
@@ -569,19 +488,13 @@ function App() {
   ===================================================== */
 
   if (
-    screen ===
-      "confirmation" &&
+    screen === "confirmation" &&
     currentOrder
   ) {
     return (
       <OrderConfirmation
         order={currentOrder}
-        onTrackOrder={
-          trackOrder
-        }
-        onBackToMenu={
-          backToMenu
-        }
+        onBackToMenu={backToMenu}
       />
     );
   }
@@ -592,7 +505,6 @@ function App() {
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-orange-50/70 via-white to-white">
-
       <div className="mx-auto min-h-screen max-w-md px-4 pb-32">
 
         {/* =================================================
@@ -634,7 +546,6 @@ function App() {
             </p>
 
           </div>
-
         </section>
 
         {/* =================================================
@@ -644,9 +555,7 @@ function App() {
         <div className="mt-5">
           <MenuSearch
             value={searchQuery}
-            onChange={
-              setSearchQuery
-            }
+            onChange={setSearchQuery}
           />
         </div>
 
@@ -690,27 +599,21 @@ function App() {
               </h2>
 
               <span className="shrink-0 text-xs font-medium text-gray-400">
-                {
-                  filteredFoods.length
-                }{" "}
-                {
-                  filteredFoods.length ===
-                  1
-                    ? "dish"
-                    : "dishes"
-                }
+                {filteredFoods.length}{" "}
+                {filteredFoods.length ===
+                1
+                  ? "dish"
+                  : "dishes"}
               </span>
 
             </div>
-
           </div>
 
           {/* =================================================
               FOOD GRID
           ================================================= */}
 
-          {filteredFoods.length >
-          0 ? (
+          {filteredFoods.length > 0 ? (
             <div className="grid grid-cols-2 gap-3">
 
               {filteredFoods.map(
@@ -718,9 +621,7 @@ function App() {
                   <FoodCard
                     key={food.id}
                     food={food}
-                    onAdd={
-                      addToCart
-                    }
+                    onAdd={addToCart}
                     onSelect={
                       setSelectedFood
                     }
@@ -752,10 +653,7 @@ function App() {
               <button
                 type="button"
                 onClick={() => {
-                  setSearchQuery(
-                    "",
-                  );
-
+                  setSearchQuery("");
                   setSelectedCategory(
                     "Popular",
                   );
