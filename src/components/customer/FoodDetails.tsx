@@ -6,6 +6,7 @@ import {
   Star,
   X,
 } from "lucide-react";
+
 import {
   useEffect,
   useState,
@@ -20,6 +21,7 @@ interface FoodDetailsProps {
   onAdd: (
     food: FoodItem,
     quantity: number,
+    note: string,
   ) => void;
 }
 
@@ -40,9 +42,8 @@ export function FoodDetails({
 
   const [currentImage, setCurrentImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
-  const [touchStart, setTouchStart] = useState<number | null>(
-    null,
-  );
+  const [touchStart, setTouchStart] =
+    useState<number | null>(null);
 
   const total = food.price * quantity;
   const hasMultipleImages = images.length > 1;
@@ -52,12 +53,14 @@ export function FoodDetails({
   ===================================================== */
 
   useEffect(() => {
-    const previousOverflow = document.body.style.overflow;
+    const previousOverflow =
+      document.body.style.overflow;
 
     document.body.style.overflow = "hidden";
 
     return () => {
-      document.body.style.overflow = previousOverflow;
+      document.body.style.overflow =
+        previousOverflow;
     };
   }, []);
 
@@ -118,7 +121,9 @@ export function FoodDetails({
   ===================================================== */
 
   useEffect(() => {
-    function handleKeyDown(event: KeyboardEvent) {
+    function handleKeyDown(
+      event: KeyboardEvent,
+    ) {
       if (event.key === "Escape") {
         onBack();
         return;
@@ -137,7 +142,10 @@ export function FoodDetails({
       }
     }
 
-    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener(
+      "keydown",
+      handleKeyDown,
+    );
 
     return () => {
       window.removeEventListener(
@@ -151,11 +159,17 @@ export function FoodDetails({
      TOUCH / SWIPE CONTROLS
   ===================================================== */
 
-  function handleTouchStart(event: TouchEvent) {
-    setTouchStart(event.touches[0]?.clientX ?? null);
+  function handleTouchStart(
+    event: TouchEvent,
+  ) {
+    setTouchStart(
+      event.touches[0]?.clientX ?? null,
+    );
   }
 
-  function handleTouchEnd(event: TouchEvent) {
+  function handleTouchEnd(
+    event: TouchEvent,
+  ) {
     if (touchStart === null) {
       return;
     }
@@ -168,12 +182,17 @@ export function FoodDetails({
       return;
     }
 
-    const difference = touchStart - touchEnd;
+    const difference =
+      touchStart - touchEnd;
 
-    if (difference > MINIMUM_SWIPE_DISTANCE) {
+    if (
+      difference >
+      MINIMUM_SWIPE_DISTANCE
+    ) {
       nextImage();
     } else if (
-      difference < -MINIMUM_SWIPE_DISTANCE
+      difference <
+      -MINIMUM_SWIPE_DISTANCE
     ) {
       previousImage();
     }
@@ -192,7 +211,9 @@ export function FoodDetails({
   }
 
   function increaseQuantity() {
-    setQuantity((current) => current + 1);
+    setQuantity((current) =>
+      current + 1,
+    );
   }
 
   /* =====================================================
@@ -200,7 +221,7 @@ export function FoodDetails({
   ===================================================== */
 
   function handleAddToOrder() {
-    onAdd(food, quantity);
+    onAdd(food, quantity, "");
   }
 
   /* =====================================================
@@ -234,7 +255,9 @@ export function FoodDetails({
           sm:max-w-md
           sm:rounded-[2rem]
         "
-        onClick={(event) => event.stopPropagation()}
+        onClick={(event) =>
+          event.stopPropagation()
+        }
       >
         {/* =================================================
             IMAGE SLIDER
@@ -352,7 +375,8 @@ export function FoodDetails({
                 currentImage + 1
               } of ${images.length}`}
             >
-              {currentImage + 1} / {images.length}
+              {currentImage + 1} /{" "}
+              {images.length}
             </div>
           )}
 
@@ -526,7 +550,8 @@ export function FoodDetails({
 
           {hasMultipleImages && (
             <p className="mt-3 text-center text-xs font-medium text-gray-400">
-              Swipe or use the arrows to view more photos
+              Swipe or use the arrows to view
+              more photos
             </p>
           )}
 
