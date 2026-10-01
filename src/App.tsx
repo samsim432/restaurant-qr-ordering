@@ -10,6 +10,7 @@ import { MenuSearch } from "./components/customer/MenuSearch";
 import { OrderConfirmation } from "./components/customer/OrderConfirmation";
 import { PaymentScreen } from "./components/customer/PaymentScreen";
 import { RestaurantHeader } from "./components/customer/RestaurantHeader";
+import LaunchScreen from "./components/customer/LaunchScreen";
 
 import {
   menuFoods,
@@ -24,6 +25,7 @@ import type {
 } from "./types/customer";
 
 type AppScreen =
+  | "launch"
   | "menu"
   | "cart"
   | "checkout"
@@ -51,7 +53,7 @@ function App() {
   ===================================================== */
 
   const [screen, setScreen] =
-    useState<AppScreen>("menu");
+    useState<AppScreen>("launch");
 
   /* =====================================================
      CURRENT ORDER
@@ -408,6 +410,19 @@ function App() {
       );
     },
   );
+
+  /* =====================================================
+     LAUNCH SCREEN
+  ===================================================== */
+
+  if (screen === "launch") {
+    return (
+      <LaunchScreen
+        restaurantName={business.name}
+        onComplete={() => setScreen("menu")}
+      />
+    );
+  }
 
   /* =====================================================
      FOOD DETAILS
