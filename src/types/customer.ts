@@ -59,6 +59,10 @@ export interface CustomerOrder {
   orderNumber: string;
   business: Business;
   location: TableContext;
+
+  customerName: string;
+  customerEmail?: string;
+
   items: CartItem[];
   paymentMethod: PaymentMethod;
   paymentStatus: "pending" | "paid" | "unpaid";

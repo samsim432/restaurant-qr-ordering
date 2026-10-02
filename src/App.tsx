@@ -66,7 +66,8 @@ function App() {
      SEARCH
   ===================================================== */
 
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] =
+    useState("");
 
   /* =====================================================
      CATEGORY
@@ -83,6 +84,16 @@ function App() {
     selectedPaymentMethod,
     setSelectedPaymentMethod,
   ] = useState<PaymentMethod | null>(null);
+
+  /* =====================================================
+     CUSTOMER DETAILS
+  ===================================================== */
+
+  const [customerDetails, setCustomerDetails] =
+    useState<{
+      name: string;
+      email?: string;
+    } | null>(null);
 
   /* =====================================================
      ADD FOOD DIRECTLY
@@ -238,6 +249,8 @@ function App() {
 
   function createOrder(
     paymentMethod: PaymentMethod,
+    customerName: string,
+    customerEmail?: string,
   ) {
     const subtotal = cart.reduce(
       (total, item) =>
@@ -263,6 +276,10 @@ function App() {
       business,
 
       location,
+
+      customerName,
+
+      customerEmail,
 
       items: cart,
 
@@ -293,6 +310,8 @@ function App() {
 
     setSelectedPaymentMethod(null);
 
+    setCustomerDetails(null);
+
     setScreen("confirmation");
   }
 
@@ -302,7 +321,14 @@ function App() {
 
   function placeOrder(
     paymentMethod: PaymentMethod,
+    customerName: string,
+    customerEmail?: string,
   ) {
+    setCustomerDetails({
+      name: customerName,
+      email: customerEmail,
+    });
+
     /*
      * Online payments go through
      * the mock payment screen first.
@@ -327,7 +353,11 @@ function App() {
      * need a payment screen.
      */
 
-    createOrder(paymentMethod);
+    createOrder(
+      paymentMethod,
+      customerName,
+      customerEmail,
+    );
   }
 
   /* =====================================================
@@ -335,11 +365,18 @@ function App() {
   ===================================================== */
 
   function handlePaymentSuccess() {
-    if (!selectedPaymentMethod) {
+    if (
+      !selectedPaymentMethod ||
+      !customerDetails
+    ) {
       return;
     }
 
-    createOrder(selectedPaymentMethod);
+    createOrder(
+      selectedPaymentMethod,
+      customerDetails.name,
+      customerDetails.email,
+    );
   }
 
   /* =====================================================
@@ -354,6 +391,8 @@ function App() {
     setSelectedCategory("Popular");
 
     setSelectedPaymentMethod(null);
+
+    setCustomerDetails(null);
 
     setSelectedFood(null);
 
