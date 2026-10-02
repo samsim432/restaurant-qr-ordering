@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
-import { CategoryScroller } from "./components/customer/CategoryScroller";
+import LaunchScreen from "./components/customer/LaunchScreen";
 import { CartBar } from "./components/customer/CartBar";
 import { CartScreen } from "./components/customer/CartScreen";
+import { CategoryScroller } from "./components/customer/CategoryScroller";
 import { CheckoutScreen } from "./components/customer/CheckoutScreen";
 import { FoodCard } from "./components/customer/FoodCard";
 import { FoodDetails } from "./components/customer/FoodDetails";
@@ -10,12 +11,8 @@ import { MenuSearch } from "./components/customer/MenuSearch";
 import { OrderConfirmation } from "./components/customer/OrderConfirmation";
 import { PaymentScreen } from "./components/customer/PaymentScreen";
 import { RestaurantHeader } from "./components/customer/RestaurantHeader";
-import LaunchScreen from "./components/customer/LaunchScreen";
 
-import {
-  menuFoods,
-  restaurantSession,
-} from "./data/mockCustomer";
+import { menuFoods, restaurantSession } from "./data/mockCustomer";
 
 import type {
   CartItem,
@@ -24,132 +21,641 @@ import type {
   PaymentMethod,
 } from "./types/customer";
 
-type AppScreen =
+import OwnerLanding from "./pages/owner/OwnerLanding";
+import OwnerLogin from "./pages/owner/OwnerLogin";
+import OwnerRegister from "./pages/owner/OwnerRegister";
+import ForgotPassword from "./pages/owner/ForgotPassword";
+import ResetPassword from "./pages/owner/ResetPassword";
+
+import BusinessType, {
+  type OwnerBusinessType,
+} from "./pages/owner/BusinessType";
+
+import RestaurantSetup, {
+  type RestaurantDetails,
+} from "./pages/owner/RestaurantSetup";
+
+import HotelSetup, {
+  type HotelDetails,
+} from "./pages/owner/HotelSetup";
+
+import RestaurantMenuSetup from "./pages/owner/RestaurantMenuSetup";
+import RestaurantTablesSetup from "./pages/owner/RestaurantTablesSetup";
+import RestaurantQRManagement from "./pages/owner/RestaurantQRManagement";
+import RestaurantSetupComplete from "./pages/owner/RestaurantSetupComplete";
+
+import HotelMenuSetup from "./pages/owner/HotelMenuSetup";
+import HotelRoomsSetup from "./pages/owner/HotelRoomsSetup";
+import HotelQRManagement from "./pages/owner/HotelQRManagement";
+import HotelSetupComplete from "./pages/owner/HotelSetupComplete";
+
+import RestaurantDashboard from "./pages/owner/restaurant/RestaurantDashboard";
+import RestaurantOrders from "./pages/owner/restaurant/RestaurantOrders";
+import RestaurantTables from "./pages/owner/restaurant/RestaurantTables";
+import RestaurantMenu from "./pages/owner/restaurant/RestaurantMenu";
+import RestaurantCustomers from "./pages/owner/restaurant/RestaurantCustomers";
+import RestaurantPayments from "./pages/owner/restaurant/RestaurantPayments";
+import RestaurantSettings from "./pages/owner/restaurant/RestaurantSettings";
+
+type OwnerScreen =
+  | "landing"
+  | "login"
+  | "register"
+  | "forgot-password"
+  | "reset-password"
+  | "business-type"
+  | "restaurant-setup"
+  | "restaurant-menu-setup"
+  | "restaurant-tables-setup"
+  | "restaurant-qr-management"
+  | "restaurant-setup-complete"
+  | "restaurant-dashboard"
+  | "restaurant-orders"
+  | "restaurant-tables"
+  | "restaurant-menu"
+  | "restaurant-customers"
+  | "restaurant-payments"
+  | "restaurant-settings"
+  | "hotel-setup"
+  | "hotel-menu-setup"
+  | "hotel-rooms-setup"
+  | "hotel-qr-management"
+  | "hotel-setup-complete";
+
+type CustomerScreen =
   | "launch"
   | "menu"
+  | "details"
   | "cart"
   | "checkout"
   | "payment"
   | "confirmation";
 
 function App() {
-  const { business, location } = restaurantSession;
+  const isCustomerMode =
+    new URLSearchParams(window.location.search).get(
+      "customer",
+    ) === "true";
 
-  /* =====================================================
-     CART
-  ===================================================== */
+  if (isCustomerMode) {
+    return <CustomerApp />;
+  }
+
+  return <OwnerApp />;
+}
+
+/* =========================================================
+   OWNER APP
+========================================================= */
+
+function OwnerApp() {
+  const [ownerScreen, setOwnerScreen] =
+    useState<OwnerScreen>("landing");
+
+  const [, setSelectedBusinessType] =
+    useState<OwnerBusinessType | null>(null);
+
+  const [, setRestaurantDetails] =
+    useState<RestaurantDetails | null>(null);
+
+  const [, setHotelDetails] =
+    useState<HotelDetails | null>(null);
+
+  function navigateRestaurant(screen: string) {
+    switch (screen) {
+      case "overview":
+      case "dashboard":
+        setOwnerScreen("restaurant-dashboard");
+        break;
+
+      case "orders":
+        setOwnerScreen("restaurant-orders");
+        break;
+
+      case "tables":
+        setOwnerScreen("restaurant-tables");
+        break;
+
+      case "menu":
+        setOwnerScreen("restaurant-menu");
+        break;
+
+      case "customers":
+        setOwnerScreen("restaurant-customers");
+        break;
+
+      case "payments":
+        setOwnerScreen("restaurant-payments");
+        break;
+
+      case "settings":
+        setOwnerScreen("restaurant-settings");
+        break;
+
+      default:
+        setOwnerScreen("restaurant-dashboard");
+        break;
+    }
+  }
+
+  switch (ownerScreen) {
+    /* =====================================================
+       OWNER LANDING
+    ===================================================== */
+
+    case "landing":
+      return (
+        <OwnerLanding
+          onGetStarted={() =>
+            setOwnerScreen("register")
+          }
+          onLogin={() =>
+            setOwnerScreen("login")
+          }
+        />
+      );
+
+    /* =====================================================
+       OWNER LOGIN
+    ===================================================== */
+
+    case "login":
+      return (
+        <OwnerLogin
+          onBack={() =>
+            setOwnerScreen("landing")
+          }
+          onRegister={() =>
+            setOwnerScreen("register")
+          }
+          onForgotPassword={() =>
+            setOwnerScreen("forgot-password")
+          }
+          onLogin={() =>
+            setOwnerScreen("business-type")
+          }
+        />
+      );
+
+    /* =====================================================
+       OWNER REGISTER
+    ===================================================== */
+
+    case "register":
+      return (
+        <OwnerRegister
+          onBack={() =>
+            setOwnerScreen("landing")
+          }
+          onRegistered={() =>
+            setOwnerScreen("business-type")
+          }
+        />
+      );
+
+    /* =====================================================
+       FORGOT PASSWORD
+    ===================================================== */
+
+    case "forgot-password":
+      return (
+        <ForgotPassword
+          onBack={() =>
+            setOwnerScreen("login")
+          }
+          onLogin={() =>
+            setOwnerScreen("login")
+          }
+          onResetPassword={() =>
+            setOwnerScreen("reset-password")
+          }
+        />
+      );
+
+    /* =====================================================
+       RESET PASSWORD
+    ===================================================== */
+
+    case "reset-password":
+      return (
+        <ResetPassword
+          onBack={() =>
+            setOwnerScreen("forgot-password")
+          }
+          onLogin={() =>
+            setOwnerScreen("login")
+          }
+        />
+      );
+
+    /* =====================================================
+       BUSINESS TYPE
+    ===================================================== */
+
+    case "business-type":
+      return (
+        <BusinessType
+          onBack={() =>
+            setOwnerScreen("register")
+          }
+          onContinue={(businessType) => {
+            setSelectedBusinessType(
+              businessType,
+            );
+
+            if (businessType === "restaurant") {
+              setOwnerScreen(
+                "restaurant-setup",
+              );
+            } else {
+              setOwnerScreen("hotel-setup");
+            }
+          }}
+        />
+      );
+
+    /* =====================================================
+       RESTAURANT SETUP
+    ===================================================== */
+
+    case "restaurant-setup":
+      return (
+        <RestaurantSetup
+          onBack={() =>
+            setOwnerScreen("business-type")
+          }
+          onComplete={(restaurant) => {
+            setRestaurantDetails(
+              restaurant,
+            );
+
+            setOwnerScreen(
+              "restaurant-menu-setup",
+            );
+          }}
+        />
+      );
+
+    /* =====================================================
+       RESTAURANT MENU SETUP
+    ===================================================== */
+
+    case "restaurant-menu-setup":
+      return (
+        <RestaurantMenuSetup
+          onBack={() =>
+            setOwnerScreen(
+              "restaurant-setup",
+            )
+          }
+          onContinue={() =>
+            setOwnerScreen(
+              "restaurant-tables-setup",
+            )
+          }
+        />
+      );
+
+    /* =====================================================
+       RESTAURANT TABLE SETUP
+    ===================================================== */
+
+    case "restaurant-tables-setup":
+      return (
+        <RestaurantTablesSetup
+          onBack={() =>
+            setOwnerScreen(
+              "restaurant-menu-setup",
+            )
+          }
+          onContinue={() =>
+            setOwnerScreen(
+              "restaurant-qr-management",
+            )
+          }
+        />
+      );
+
+    /* =====================================================
+       RESTAURANT QR MANAGEMENT
+    ===================================================== */
+
+    case "restaurant-qr-management":
+      return (
+        <RestaurantQRManagement
+          onBack={() =>
+            setOwnerScreen(
+              "restaurant-tables-setup",
+            )
+          }
+          onContinue={() =>
+            setOwnerScreen(
+              "restaurant-setup-complete",
+            )
+          }
+        />
+      );
+
+    /* =====================================================
+       RESTAURANT SETUP COMPLETE
+    ===================================================== */
+
+    case "restaurant-setup-complete":
+      return (
+        <RestaurantSetupComplete
+          onContinue={() =>
+            setOwnerScreen(
+              "restaurant-dashboard",
+            )
+          }
+        />
+      );
+
+    /* =====================================================
+       RESTAURANT DASHBOARD
+    ===================================================== */
+
+    case "restaurant-dashboard":
+      return (
+        <RestaurantDashboard
+          onNavigate={navigateRestaurant}
+        />
+      );
+
+    /* =====================================================
+       RESTAURANT ORDERS
+    ===================================================== */
+
+    case "restaurant-orders":
+      return (
+        <RestaurantOrders
+          onNavigate={navigateRestaurant}
+        />
+      );
+
+    /* =====================================================
+       RESTAURANT TABLES
+    ===================================================== */
+
+    case "restaurant-tables":
+      return (
+        <RestaurantTables
+          onNavigate={navigateRestaurant}
+        />
+      );
+
+    /* =====================================================
+       RESTAURANT MENU
+    ===================================================== */
+
+    case "restaurant-menu":
+      return (
+        <RestaurantMenu
+          onNavigate={navigateRestaurant}
+        />
+      );
+
+    /* =====================================================
+       RESTAURANT CUSTOMERS
+    ===================================================== */
+
+    case "restaurant-customers":
+      return (
+        <RestaurantCustomers
+          onNavigate={navigateRestaurant}
+        />
+      );
+
+    /* =====================================================
+       RESTAURANT PAYMENTS
+    ===================================================== */
+
+    case "restaurant-payments":
+      return (
+        <RestaurantPayments
+          onNavigate={navigateRestaurant}
+        />
+      );
+
+    /* =====================================================
+       RESTAURANT SETTINGS
+    ===================================================== */
+
+    case "restaurant-settings":
+      return (
+        <RestaurantSettings
+          onNavigate={navigateRestaurant}
+        />
+      );
+
+    /* =====================================================
+       HOTEL SETUP
+    ===================================================== */
+
+    case "hotel-setup":
+      return (
+        <HotelSetup
+          onBack={() =>
+            setOwnerScreen("business-type")
+          }
+          onComplete={(hotel) => {
+            setHotelDetails(hotel);
+
+            setOwnerScreen(
+              "hotel-menu-setup",
+            );
+          }}
+        />
+      );
+
+    /* =====================================================
+       HOTEL MENU SETUP
+    ===================================================== */
+
+    case "hotel-menu-setup":
+      return (
+        <HotelMenuSetup
+          onBack={() =>
+            setOwnerScreen("hotel-setup")
+          }
+          onContinue={() =>
+            setOwnerScreen(
+              "hotel-rooms-setup",
+            )
+          }
+        />
+      );
+
+    /* =====================================================
+       HOTEL ROOMS SETUP
+    ===================================================== */
+
+    case "hotel-rooms-setup":
+      return (
+        <HotelRoomsSetup
+          onBack={() =>
+            setOwnerScreen(
+              "hotel-menu-setup",
+            )
+          }
+          onContinue={() =>
+            setOwnerScreen(
+              "hotel-qr-management",
+            )
+          }
+        />
+      );
+
+    /* =====================================================
+       HOTEL QR MANAGEMENT
+    ===================================================== */
+
+    case "hotel-qr-management":
+      return (
+        <HotelQRManagement
+          onBack={() =>
+            setOwnerScreen(
+              "hotel-rooms-setup",
+            )
+          }
+          onContinue={() =>
+            setOwnerScreen(
+              "hotel-setup-complete",
+            )
+          }
+        />
+      );
+
+    /* =====================================================
+       HOTEL SETUP COMPLETE
+       
+       Hotel dashboard will be added in the Hotel Owner
+       Frontend phase. For now this returns to landing.
+    ===================================================== */
+
+    case "hotel-setup-complete":
+      return (
+        <HotelSetupComplete
+          onContinue={() =>
+            setOwnerScreen("landing")
+          }
+        />
+      );
+
+    default:
+      return (
+        <OwnerLanding
+          onGetStarted={() =>
+            setOwnerScreen("register")
+          }
+          onLogin={() =>
+            setOwnerScreen("login")
+          }
+        />
+      );
+  }
+}
+
+/* =========================================================
+   CUSTOMER APP
+========================================================= */
+
+function CustomerApp() {
+  const [screen, setScreen] =
+    useState<CustomerScreen>("launch");
 
   const [cart, setCart] = useState<CartItem[]>([]);
-
-  /* =====================================================
-     SELECTED FOOD
-  ===================================================== */
 
   const [selectedFood, setSelectedFood] =
     useState<FoodItem | null>(null);
 
-  /* =====================================================
-     SCREEN
-  ===================================================== */
-
-  const [screen, setScreen] =
-    useState<AppScreen>("launch");
-
-  /* =====================================================
-     CURRENT ORDER
-  ===================================================== */
-
-  const [currentOrder, setCurrentOrder] =
-    useState<CustomerOrder | null>(null);
-
-  /* =====================================================
-     SEARCH
-  ===================================================== */
+  const [selectedCategory, setSelectedCategory] =
+    useState("Popular");
 
   const [searchQuery, setSearchQuery] =
     useState("");
 
-  /* =====================================================
-     CATEGORY
-  ===================================================== */
+  const [currentOrder, setCurrentOrder] =
+    useState<CustomerOrder | null>(null);
 
-  const [selectedCategory, setSelectedCategory] =
-    useState("Popular");
+  const [, setPaymentMethod] =
+    useState<PaymentMethod>("esewa");
 
-  /* =====================================================
-     SELECTED PAYMENT METHOD
-  ===================================================== */
+  const filteredMenu = useMemo(() => {
+    const query =
+      searchQuery.trim().toLowerCase();
 
-  const [
-    selectedPaymentMethod,
-    setSelectedPaymentMethod,
-  ] = useState<PaymentMethod | null>(null);
+    return menuFoods.filter(
+      (food: FoodItem) => {
+        const matchesCategory =
+          selectedCategory === "Popular"
+            ? food.popular === true
+            : food.category ===
+              selectedCategory;
 
-  /* =====================================================
-     CUSTOMER DETAILS
-  ===================================================== */
+        const matchesSearch =
+          !query ||
+          food.name
+            .toLowerCase()
+            .includes(query) ||
+          food.description
+            .toLowerCase()
+            .includes(query);
 
-  const [customerDetails, setCustomerDetails] =
-    useState<{
-      name: string;
-      email?: string;
-    } | null>(null);
-
-  /* =====================================================
-     ADD FOOD DIRECTLY
-  ===================================================== */
-
-  function addToCart(food: FoodItem) {
-    setCart((currentCart) => {
-      const existingItem = currentCart.find(
-        (item) => item.food.id === food.id,
-      );
-
-      if (existingItem) {
-        return currentCart.map((item) =>
-          item.food.id === food.id
-            ? {
-                ...item,
-                quantity: item.quantity + 1,
-              }
-            : item,
+        return (
+          matchesCategory &&
+          matchesSearch
         );
-      }
+      },
+    );
+  }, [
+    searchQuery,
+    selectedCategory,
+  ]);
 
-      return [
-        ...currentCart,
-        {
-          food,
-          quantity: 1,
-        },
-      ];
-    });
-  }
+  const itemCount = cart.reduce(
+    (total, item) =>
+      total + item.quantity,
+    0,
+  );
+
+  const subtotal = cart.reduce(
+    (total, item) =>
+      total +
+      item.food.price * item.quantity,
+    0,
+  );
 
   /* =====================================================
-     ADD FOOD FROM DETAILS
+     ADD FOOD FROM FOOD DETAILS
   ===================================================== */
 
-  function addDetailedFood(
+  function addToCart(
     food: FoodItem,
     quantity: number,
     note: string,
   ) {
     setCart((currentCart) => {
-      const existingItem = currentCart.find(
-        (item) => item.food.id === food.id,
-      );
+      const existing =
+        currentCart.find(
+          (item) =>
+            item.food.id === food.id,
+        );
 
-      if (existingItem) {
-        return currentCart.map((item) =>
-          item.food.id === food.id
-            ? {
-                ...item,
-                quantity:
-                  item.quantity + quantity,
-                note: note || item.note,
-              }
-            : item,
+      if (existing) {
+        return currentCart.map(
+          (item) =>
+            item.food.id === food.id
+              ? {
+                  ...item,
+                  quantity:
+                    item.quantity +
+                    quantity,
+                  note:
+                    note ||
+                    item.note,
+                }
+              : item,
         );
       }
 
@@ -158,16 +664,55 @@ function App() {
         {
           food,
           quantity,
-          note: note || undefined,
+          note,
         },
       ];
     });
 
     setSelectedFood(null);
+    setScreen("menu");
   }
 
   /* =====================================================
-     UPDATE QUANTITY
+     ADD FOOD DIRECTLY FROM CARD
+  ===================================================== */
+
+  function addFoodDirectly(
+    food: FoodItem,
+  ) {
+    setCart((currentCart) => {
+      const existing =
+        currentCart.find(
+          (item) =>
+            item.food.id === food.id,
+        );
+
+      if (existing) {
+        return currentCart.map(
+          (item) =>
+            item.food.id === food.id
+              ? {
+                  ...item,
+                  quantity:
+                    item.quantity + 1,
+                }
+              : item,
+        );
+      }
+
+      return [
+        ...currentCart,
+        {
+          food,
+          quantity: 1,
+          note: "",
+        },
+      ];
+    });
+  }
+
+  /* =====================================================
+     UPDATE CART QUANTITY
   ===================================================== */
 
   function updateQuantity(
@@ -195,16 +740,19 @@ function App() {
      REMOVE FROM CART
   ===================================================== */
 
-  function removeFromCart(foodId: string) {
+  function removeFromCart(
+    foodId: string,
+  ) {
     setCart((currentCart) =>
       currentCart.filter(
-        (item) => item.food.id !== foodId,
+        (item) =>
+          item.food.id !== foodId,
       ),
     );
   }
 
   /* =====================================================
-     UPDATE NOTE
+     UPDATE ITEM NOTE
   ===================================================== */
 
   function updateNote(
@@ -224,140 +772,51 @@ function App() {
   }
 
   /* =====================================================
-     NAVIGATION
+     PLACE ORDER
   ===================================================== */
 
-  function openCart() {
-    setScreen("cart");
-  }
-
-  function closeCart() {
-    setScreen("menu");
-  }
-
-  function openCheckout() {
-    setScreen("checkout");
-  }
-
-  function backToCart() {
-    setScreen("cart");
-  }
-
-  /* =====================================================
-     CREATE ORDER
-  ===================================================== */
-
-  function createOrder(
-    paymentMethod: PaymentMethod,
+  function handlePlaceOrder(
+    method: PaymentMethod,
     customerName: string,
     customerEmail?: string,
   ) {
-    const subtotal = cart.reduce(
-      (total, item) =>
-        total +
-        item.food.price * item.quantity,
-      0,
-    );
+    setPaymentMethod(method);
 
-    const serviceCharge = 0;
-
-    const total =
-      subtotal + serviceCharge;
-
-    const orderNumber = `HK-${Math.floor(
-      1000 + Math.random() * 9000,
-    )}`;
-
-    const newOrder: CustomerOrder = {
-      id: crypto.randomUUID(),
-
-      orderNumber,
-
-      business,
-
-      location,
-
+    const order: CustomerOrder = {
+      id: `order-${Date.now()}`,
+      orderNumber: `HK-${Math.floor(
+        1000 +
+          Math.random() * 9000,
+      )}`,
+      business:
+        restaurantSession.business,
+      location:
+        restaurantSession.location,
       customerName,
-
       customerEmail,
-
       items: cart,
-
-      paymentMethod,
-
+      paymentMethod: method,
       paymentStatus:
-        paymentMethod === "counter"
+        method === "counter"
           ? "unpaid"
-          : "paid",
-
-      status: "confirmed",
-
+          : "pending",
+      status: "pending",
       subtotal,
-
-      serviceCharge,
-
-      total,
-
+      serviceCharge: 0,
+      total: subtotal,
       createdAt:
         new Date().toISOString(),
     };
 
-    console.log("New order:", newOrder);
+    setCurrentOrder(order);
 
-    setCurrentOrder(newOrder);
-
-    setCart([]);
-
-    setSelectedPaymentMethod(null);
-
-    setCustomerDetails(null);
-
-    setScreen("confirmation");
-  }
-
-  /* =====================================================
-     PLACE ORDER / START PAYMENT
-  ===================================================== */
-
-  function placeOrder(
-    paymentMethod: PaymentMethod,
-    customerName: string,
-    customerEmail?: string,
-  ) {
-    setCustomerDetails({
-      name: customerName,
-      email: customerEmail,
-    });
-
-    /*
-     * Online payments go through
-     * the mock payment screen first.
-     */
-
-    if (
-      paymentMethod === "esewa" ||
-      paymentMethod === "khalti" ||
-      paymentMethod === "card"
-    ) {
-      setSelectedPaymentMethod(
-        paymentMethod,
-      );
-
-      setScreen("payment");
-
+    if (method === "counter") {
+      setCart([]);
+      setScreen("confirmation");
       return;
     }
 
-    /*
-     * Counter payment does not
-     * need a payment screen.
-     */
-
-    createOrder(
-      paymentMethod,
-      customerName,
-      customerEmail,
-    );
+    setScreen("payment");
   }
 
   /* =====================================================
@@ -365,90 +824,19 @@ function App() {
   ===================================================== */
 
   function handlePaymentSuccess() {
-    if (
-      !selectedPaymentMethod ||
-      !customerDetails
-    ) {
+    if (!currentOrder) {
       return;
     }
 
-    createOrder(
-      selectedPaymentMethod,
-      customerDetails.name,
-      customerDetails.email,
-    );
+    setCurrentOrder({
+      ...currentOrder,
+      paymentStatus: "paid",
+      status: "confirmed",
+    });
+
+    setCart([]);
+    setScreen("confirmation");
   }
-
-  /* =====================================================
-     BACK TO MENU
-  ===================================================== */
-
-  function backToMenu() {
-    setCurrentOrder(null);
-
-    setSearchQuery("");
-
-    setSelectedCategory("Popular");
-
-    setSelectedPaymentMethod(null);
-
-    setCustomerDetails(null);
-
-    setSelectedFood(null);
-
-    setScreen("menu");
-  }
-
-  /* =====================================================
-     CART TOTALS
-  ===================================================== */
-
-  const itemCount = cart.reduce(
-    (total, item) =>
-      total + item.quantity,
-    0,
-  );
-
-  const cartTotal = cart.reduce(
-    (total, item) =>
-      total +
-      item.food.price * item.quantity,
-    0,
-  );
-
-  /* =====================================================
-     SEARCH + CATEGORY FILTER
-  ===================================================== */
-
-  const normalizedSearch =
-    searchQuery.trim().toLowerCase();
-
-  const filteredFoods = menuFoods.filter(
-    (food) => {
-      const matchesSearch =
-        normalizedSearch === "" ||
-        food.name
-          .toLowerCase()
-          .includes(normalizedSearch) ||
-        food.description
-          .toLowerCase()
-          .includes(normalizedSearch) ||
-        food.category
-          .toLowerCase()
-          .includes(normalizedSearch);
-
-      const matchesCategory =
-        selectedCategory === "Popular"
-          ? food.popular === true
-          : food.category ===
-            selectedCategory;
-
-      return (
-        matchesSearch &&
-        matchesCategory
-      );
-    },
-  );
 
   /* =====================================================
      LAUNCH SCREEN
@@ -457,9 +845,121 @@ function App() {
   if (screen === "launch") {
     return (
       <LaunchScreen
-        restaurantName={business.name}
-        onComplete={() => setScreen("menu")}
+        restaurantName={
+          restaurantSession.business.name
+        }
+        onComplete={() =>
+          setScreen("menu")
+        }
       />
+    );
+  }
+
+  /* =====================================================
+     MENU SCREEN
+  ===================================================== */
+
+  if (screen === "menu") {
+    return (
+      <main className="min-h-screen bg-gray-50">
+        <div className="mx-auto min-h-screen max-w-md px-4 pb-28">
+          <RestaurantHeader
+            name={
+              restaurantSession.business
+                .name
+            }
+            tableNumber={
+              restaurantSession.location
+                .tableNumber
+            }
+            description={
+              restaurantSession.business
+                .description
+            }
+          />
+
+          <div className="pt-4">
+            <MenuSearch
+              value={searchQuery}
+              onChange={setSearchQuery}
+            />
+          </div>
+
+          <div className="mt-5">
+            <CategoryScroller
+              selectedCategory={
+                selectedCategory
+              }
+              onSelect={
+                setSelectedCategory
+              }
+            />
+          </div>
+
+          <section className="mt-6">
+            <div className="mb-4 flex items-end justify-between">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-wider text-orange-500">
+                  Menu
+                </p>
+
+                <h2 className="mt-1 text-xl font-bold text-gray-950">
+                  {selectedCategory}
+                </h2>
+              </div>
+
+              <span className="text-xs font-medium text-gray-500">
+                {filteredMenu.length} items
+              </span>
+            </div>
+
+            <div className="space-y-4">
+              {filteredMenu.map(
+                (food: FoodItem) => (
+                  <FoodCard
+                    key={food.id}
+                    food={food}
+                    onAdd={
+                      addFoodDirectly
+                    }
+                    onSelect={(item) => {
+                      setSelectedFood(
+                        item,
+                      );
+
+                      setScreen(
+                        "details",
+                      );
+                    }}
+                  />
+                ),
+              )}
+            </div>
+
+            {filteredMenu.length ===
+              0 && (
+              <div className="rounded-3xl border border-gray-200 bg-white px-5 py-12 text-center">
+                <p className="text-sm font-semibold text-gray-800">
+                  No items found
+                </p>
+
+                <p className="mt-1 text-sm text-gray-500">
+                  Try another search or
+                  category.
+                </p>
+              </div>
+            )}
+          </section>
+        </div>
+
+        <CartBar
+          itemCount={itemCount}
+          total={subtotal}
+          onClick={() =>
+            setScreen("cart")
+          }
+        />
+      </main>
     );
   }
 
@@ -467,69 +967,79 @@ function App() {
      FOOD DETAILS
   ===================================================== */
 
-  if (selectedFood) {
+  if (
+    screen === "details" &&
+    selectedFood
+  ) {
     return (
       <FoodDetails
         food={selectedFood}
         onBack={() =>
-          setSelectedFood(null)
+          setScreen("menu")
         }
-        onAdd={addDetailedFood}
+        onAdd={addToCart}
       />
     );
   }
 
   /* =====================================================
-     CART SCREEN
+     CART
   ===================================================== */
 
   if (screen === "cart") {
     return (
       <CartScreen
         cart={cart}
-        onBack={closeCart}
+        onBack={() =>
+          setScreen("menu")
+        }
         onUpdateQuantity={
           updateQuantity
         }
         onRemove={removeFromCart}
         onUpdateNote={updateNote}
-        onCheckout={openCheckout}
+        onCheckout={() =>
+          setScreen("checkout")
+        }
       />
     );
   }
 
   /* =====================================================
-     CHECKOUT SCREEN
+     CHECKOUT
   ===================================================== */
 
   if (screen === "checkout") {
     return (
       <CheckoutScreen
         cart={cart}
-        onBack={backToCart}
-        onPlaceOrder={placeOrder}
+        onBack={() =>
+          setScreen("cart")
+        }
+        onPlaceOrder={
+          handlePlaceOrder
+        }
       />
     );
   }
 
   /* =====================================================
-     PAYMENT SCREEN
+     PAYMENT
   ===================================================== */
 
   if (
     screen === "payment" &&
-    selectedPaymentMethod
+    currentOrder
   ) {
     return (
       <PaymentScreen
-        cart={cart}
+        cart={currentOrder.items}
         paymentMethod={
-          selectedPaymentMethod
+          currentOrder.paymentMethod
         }
-        onBack={() => {
-          setSelectedPaymentMethod(null);
-          setScreen("checkout");
-        }}
+        onBack={() =>
+          setScreen("checkout")
+        }
         onPaymentSuccess={
           handlePaymentSuccess
         }
@@ -548,210 +1058,14 @@ function App() {
     return (
       <OrderConfirmation
         order={currentOrder}
-        onBackToMenu={backToMenu}
+        onBackToMenu={() =>
+          setScreen("menu")
+        }
       />
     );
   }
 
-  /* =====================================================
-     MENU
-  ===================================================== */
-
-  return (
-    <main className="min-h-screen bg-gradient-to-b from-orange-50/70 via-white to-white">
-      <div className="mx-auto min-h-screen max-w-md px-4 pb-32">
-
-        {/* =================================================
-            RESTAURANT HEADER
-        ================================================= */}
-
-        <RestaurantHeader
-          name={business.name}
-          description={
-            business.description
-          }
-          tableNumber={
-            location.tableNumber
-          }
-        />
-
-        {/* =================================================
-            HERO
-        ================================================= */}
-
-        <section className="relative mt-6 overflow-hidden rounded-3xl bg-gradient-to-br from-orange-500 via-orange-500 to-rose-500 p-6 text-white shadow-lg shadow-orange-100">
-
-          <div className="absolute -right-8 -top-10 h-32 w-32 rounded-full bg-white/10" />
-
-          <div className="absolute -bottom-12 -left-8 h-32 w-32 rounded-full bg-white/10" />
-
-          <div className="relative">
-
-            <div className="mb-3 inline-flex items-center rounded-full bg-white/15 px-3 py-1.5 text-xs font-semibold backdrop-blur-sm">
-              ✨ Freshly prepared
-            </div>
-
-            <h2 className="max-w-xs text-2xl font-bold leading-tight tracking-tight">
-              What are you craving?
-            </h2>
-
-            <p className="mt-2 max-w-sm text-sm leading-5 text-orange-50">
-              Explore our menu and order directly from your table.
-            </p>
-
-          </div>
-        </section>
-
-        {/* =================================================
-            SEARCH
-        ================================================= */}
-
-        <div className="mt-5">
-          <MenuSearch
-            value={searchQuery}
-            onChange={setSearchQuery}
-          />
-        </div>
-
-        {/* =================================================
-            CATEGORIES
-        ================================================= */}
-
-        <div className="mt-7">
-          <CategoryScroller
-            selectedCategory={
-              selectedCategory
-            }
-            onSelect={
-              setSelectedCategory
-            }
-          />
-        </div>
-
-        {/* =================================================
-            MENU RESULTS
-        ================================================= */}
-
-        <section className="mt-8">
-
-          <div className="mb-4">
-
-            <p className="text-xs font-semibold uppercase tracking-wider text-orange-500">
-              {searchQuery ||
-              selectedCategory !==
-                "Popular"
-                ? "Menu results"
-                : "Customer favourites"}
-            </p>
-
-            <div className="mt-1 flex items-center justify-between gap-3">
-
-              <h2 className="min-w-0 text-lg font-bold tracking-tight text-gray-950">
-                {searchQuery
-                  ? `Results for "${searchQuery}"`
-                  : selectedCategory}
-              </h2>
-
-              <span className="shrink-0 text-xs font-medium text-gray-400">
-                {filteredFoods.length}{" "}
-                {filteredFoods.length ===
-                1
-                  ? "dish"
-                  : "dishes"}
-              </span>
-
-            </div>
-          </div>
-
-          {/* =================================================
-              FOOD GRID
-          ================================================= */}
-
-          {filteredFoods.length > 0 ? (
-            <div className="grid grid-cols-2 gap-3">
-
-              {filteredFoods.map(
-                (food) => (
-                  <FoodCard
-                    key={food.id}
-                    food={food}
-                    onAdd={addToCart}
-                    onSelect={
-                      setSelectedFood
-                    }
-                  />
-                ),
-              )}
-
-            </div>
-          ) : (
-
-            /* =================================================
-               EMPTY RESULT
-            ================================================= */
-
-            <div className="rounded-3xl border border-gray-100 bg-white px-6 py-12 text-center shadow-sm">
-
-              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-orange-50 text-2xl">
-                🍽️
-              </div>
-
-              <h3 className="mt-4 font-semibold text-gray-950">
-                No dishes found
-              </h3>
-
-              <p className="mx-auto mt-2 max-w-xs text-sm leading-5 text-gray-500">
-                Try another search or choose a different category.
-              </p>
-
-              <button
-                type="button"
-                onClick={() => {
-                  setSearchQuery("");
-                  setSelectedCategory(
-                    "Popular",
-                  );
-                }}
-                className="mt-5 rounded-full bg-orange-500 px-5 py-2.5 text-sm font-semibold text-white shadow-sm shadow-orange-200 transition active:scale-95"
-              >
-                Clear filters
-              </button>
-
-            </div>
-          )}
-
-        </section>
-
-        {/* =================================================
-            TRUST MESSAGE
-        ================================================= */}
-
-        <div className="mt-8 rounded-2xl border border-orange-100 bg-orange-50/70 p-4 text-center">
-
-          <p className="text-sm font-semibold text-gray-900">
-            Order from your table
-          </p>
-
-          <p className="mt-1 text-xs leading-5 text-gray-500">
-            No app or account required. Just choose your food and place your order.
-          </p>
-
-        </div>
-
-      </div>
-
-      {/* ===================================================
-          CART BAR
-      =================================================== */}
-
-      <CartBar
-        itemCount={itemCount}
-        total={cartTotal}
-        onClick={openCart}
-      />
-
-    </main>
-  );
+  return null;
 }
 
 export default App;

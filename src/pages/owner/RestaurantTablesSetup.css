@@ -1,0 +1,285 @@
+.restaurant-tables-setup {
+  min-height: 100vh;
+  background: #f7f8fa;
+  color: #111827;
+  padding: 32px 20px;
+}
+
+.restaurant-tables-setup__shell {
+  width: min(100%, 680px);
+  margin: 0 auto;
+}
+
+.restaurant-tables-setup__back {
+  border: 0;
+  background: transparent;
+  color: #64748b;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 8px 0;
+  cursor: pointer;
+}
+
+.restaurant-tables-setup__card {
+  margin-top: 28px;
+  padding: 42px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 24px;
+  box-shadow: 0 18px 50px rgba(15, 23, 42, 0.06);
+}
+
+.restaurant-tables-setup__brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 19px;
+  font-weight: 700;
+}
+
+.restaurant-tables-setup__logo {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  background: #111827;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.restaurant-tables-setup__progress {
+  margin-top: 38px;
+}
+
+.restaurant-tables-setup__progress-top {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 9px;
+  color: #94a3b8;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.restaurant-tables-setup__progress-track {
+  height: 5px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #e5e7eb;
+}
+
+.restaurant-tables-setup__progress-fill {
+  width: 100%;
+  height: 100%;
+  background: #2563eb;
+}
+
+.restaurant-tables-setup__heading {
+  margin-top: 42px;
+}
+
+.restaurant-tables-setup__eyebrow {
+  margin: 0 0 14px;
+  color: #2563eb;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+.restaurant-tables-setup__heading h1 {
+  margin: 0;
+  color: #0f172a;
+  font-size: clamp(34px, 6vw, 46px);
+  line-height: 1.06;
+  letter-spacing: -0.045em;
+}
+
+.restaurant-tables-setup__heading p {
+  max-width: 500px;
+  margin: 20px 0 0;
+  color: #64748b;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.restaurant-tables-setup__form {
+  margin-top: 38px;
+}
+
+.restaurant-tables-setup__summary {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.restaurant-tables-setup__summary div {
+  flex: 1;
+  padding: 16px;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  background: #f8fafc;
+}
+
+.restaurant-tables-setup__summary strong {
+  display: block;
+  color: #0f172a;
+  font-size: 24px;
+}
+
+.restaurant-tables-setup__summary span {
+  display: block;
+  margin-top: 3px;
+  color: #94a3b8;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.restaurant-tables-list {
+  display: grid;
+  gap: 12px;
+}
+
+.restaurant-table-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  background: #fff;
+}
+
+.restaurant-table-card__number {
+  width: 38px;
+  height: 38px;
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  background: #eff6ff;
+  color: #2563eb;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.restaurant-table-card__fields {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 100px;
+  gap: 12px;
+}
+
+.restaurant-table-card label {
+  color: #475569;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.restaurant-table-card input {
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 6px;
+  padding: 10px 11px;
+  border: 1px solid #dbe1e8;
+  border-radius: 9px;
+  outline: none;
+  font: inherit;
+  font-size: 13px;
+}
+
+.restaurant-table-card input:focus {
+  border-color: #2563eb;
+}
+
+.restaurant-table-card__remove {
+  border: 0;
+  background: transparent;
+  color: #dc2626;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.restaurant-tables-setup__add {
+  width: 100%;
+  min-height: 48px;
+  margin-top: 18px;
+  border: 1px dashed #cbd5e1;
+  border-radius: 12px;
+  background: #f8fafc;
+  color: #475569;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.restaurant-tables-setup__add span {
+  margin-right: 8px;
+  font-size: 18px;
+}
+
+.restaurant-tables-setup__error {
+  margin: 18px 0 0;
+  padding: 11px 13px;
+  border-radius: 10px;
+  background: #fef2f2;
+  color: #b91c1c;
+  font-size: 13px;
+}
+
+.restaurant-tables-setup__submit {
+  width: 100%;
+  min-height: 50px;
+  margin-top: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  border: 0;
+  border-radius: 12px;
+  background: #111827;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.restaurant-tables-setup__submit span {
+  font-size: 17px;
+}
+
+.restaurant-tables-setup__note {
+  margin: 24px 0 0;
+  padding-top: 20px;
+  border-top: 1px solid #eef0f3;
+  color: #94a3b8;
+  font-size: 11px;
+  line-height: 1.6;
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  .restaurant-tables-setup {
+    padding: 20px 14px;
+  }
+
+  .restaurant-tables-setup__card {
+    margin-top: 20px;
+    padding: 28px 20px;
+  }
+
+  .restaurant-table-card {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .restaurant-table-card__fields {
+    min-width: calc(100% - 52px);
+  }
+
+  .restaurant-table-card__remove {
+    margin-left: 52px;
+  }
+}

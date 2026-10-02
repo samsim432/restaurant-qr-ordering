@@ -1,0 +1,132 @@
+.restaurant-settings-page {
+  min-height: 100vh;
+  background: #f8fafc;
+  padding: 34px;
+  color: #0f172a;
+}
+
+.restaurant-settings-layout {
+  display: grid;
+  grid-template-columns: 190px 1fr;
+  gap: 18px;
+  max-width: 950px;
+}
+
+.restaurant-settings-nav {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 11px;
+  padding: 8px;
+  height: fit-content;
+}
+
+.restaurant-settings-nav button {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  color: #64748b;
+  padding: 10px 11px;
+  border-radius: 7px;
+  text-align: left;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.restaurant-settings-nav button.active {
+  background: #eff6ff;
+  color: #2563eb;
+  font-weight: 600;
+}
+
+.restaurant-settings-card {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 11px;
+}
+
+.restaurant-settings-section-header {
+  padding: 21px 23px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.restaurant-settings-section-header h2 {
+  margin: 0;
+  font-size: 15px;
+}
+
+.restaurant-settings-section-header p {
+  margin: 5px 0 0;
+  color: #64748b;
+  font-size: 11px;
+}
+
+.restaurant-settings-form {
+  padding: 23px;
+  display: grid;
+  gap: 17px;
+}
+
+.restaurant-settings-form label {
+  display: grid;
+  gap: 7px;
+  color: #334155;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.restaurant-settings-form input,
+.restaurant-settings-form textarea {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 10px 12px;
+  outline: none;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 400;
+  color: #0f172a;
+}
+
+.restaurant-settings-form textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.restaurant-settings-form input:focus,
+.restaurant-settings-form textarea:focus {
+  border-color: #2563eb;
+}
+
+.restaurant-save-button {
+  justify-self: flex-start;
+  border: 0;
+  background: #2563eb;
+  color: white;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+@media (max-width: 700px) {
+  .restaurant-settings-page {
+    padding: 20px;
+  }
+
+  .restaurant-settings-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .restaurant-settings-nav {
+    display: flex;
+    overflow-x: auto;
+    gap: 4px;
+  }
+
+  .restaurant-settings-nav button {
+    width: auto;
+    white-space: nowrap;
+  }
+}

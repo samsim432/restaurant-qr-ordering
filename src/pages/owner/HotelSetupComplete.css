@@ -1,0 +1,103 @@
+.hotel-complete {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: #f7f8fa;
+}
+
+.hotel-complete__card {
+  width: min(100%, 560px);
+  padding: 46px;
+  text-align: center;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 24px;
+}
+
+.hotel-complete__brand {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.hotel-complete__brand span {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  background: #111827;
+  color: #fff;
+  font-weight: 800;
+}
+
+.hotel-complete__icon {
+  width: 68px;
+  height: 68px;
+  display: grid;
+  place-items: center;
+  margin: 46px auto 24px;
+  border-radius: 50%;
+  background: #ecfdf5;
+  color: #16a34a;
+  font-size: 30px;
+  font-weight: 800;
+}
+
+.hotel-complete__eyebrow {
+  color: #2563eb;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+.hotel-complete h1 {
+  margin: 14px 0 0;
+  color: #0f172a;
+  font-size: clamp(34px, 6vw, 46px);
+  line-height: 1.06;
+}
+
+.hotel-complete__description {
+  max-width: 450px;
+  margin: 20px auto;
+  color: #64748b;
+  line-height: 1.7;
+}
+
+.hotel-complete__list {
+  display: grid;
+  gap: 10px;
+  text-align: left;
+}
+
+.hotel-complete__list div {
+  display: flex;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: #f8fafc;
+  font-size: 13px;
+}
+
+.hotel-complete__list span {
+  color: #16a34a;
+}
+
+.hotel-complete__button {
+  width: 100%;
+  min-height: 50px;
+  margin-top: 26px;
+  border: 0;
+  border-radius: 12px;
+  background: #111827;
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.hotel-complete__button span {
+  margin-left: 10px;
+}

@@ -1,0 +1,138 @@
+.restaurant-customers-page {
+  min-height: 100vh;
+  background: #f8fafc;
+  padding: 34px;
+  color: #0f172a;
+}
+
+.restaurant-customer-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  margin-bottom: 18px;
+}
+
+.restaurant-customer-stats > div {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 11px;
+  padding: 18px;
+}
+
+.restaurant-customer-stats span {
+  color: #64748b;
+  font-size: 11px;
+}
+
+.restaurant-customer-stats strong {
+  display: block;
+  margin-top: 7px;
+  font-size: 23px;
+}
+
+.restaurant-customers-card {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.restaurant-customers-card-header {
+  padding: 18px 22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.restaurant-customers-card-header strong {
+  font-size: 14px;
+}
+
+.restaurant-customers-card-header input {
+  width: 220px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 9px 11px;
+  outline: none;
+  font-size: 11px;
+}
+
+.restaurant-customers-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.restaurant-customers-table th {
+  background: #f8fafc;
+  color: #64748b;
+  font-size: 10px;
+  text-transform: uppercase;
+  text-align: left;
+  padding: 12px 20px;
+}
+
+.restaurant-customers-table td {
+  border-top: 1px solid #f1f5f9;
+  padding: 15px 20px;
+  color: #475569;
+  font-size: 12px;
+}
+
+.restaurant-customer-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.restaurant-customer-info > div {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #eff6ff;
+  color: #2563eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+
+.restaurant-customer-info strong {
+  display: block;
+  color: #0f172a;
+}
+
+.restaurant-customer-info small {
+  display: block;
+  color: #64748b;
+  font-size: 10px;
+  margin-top: 2px;
+}
+
+@media (max-width: 700px) {
+  .restaurant-customers-page {
+    padding: 20px;
+  }
+
+  .restaurant-customer-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .restaurant-customers-card-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .restaurant-customers-card-header input {
+    width: 100%;
+  }
+
+  .restaurant-customers-table {
+    min-width: 650px;
+  }
+
+  .restaurant-customers-table-wrapper {
+    overflow-x: auto;
+  }
+}

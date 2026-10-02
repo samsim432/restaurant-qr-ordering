@@ -1,0 +1,187 @@
+.restaurant-orders-page {
+  min-height: 100vh;
+  background: #f8fafc;
+  padding: 34px;
+  color: #0f172a;
+}
+
+.restaurant-page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 28px;
+}
+
+.restaurant-page-header h1 {
+  margin: 12px 0 5px;
+  font-size: 26px;
+  letter-spacing: -0.5px;
+}
+
+.restaurant-page-header p {
+  margin: 0;
+  color: #64748b;
+  font-size: 13px;
+}
+
+.restaurant-back-button {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  color: #2563eb;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.restaurant-outline-button {
+  border: 1px solid #cbd5e1;
+  background: white;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.restaurant-order-filters {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  margin-bottom: 16px;
+}
+
+.restaurant-order-filters button {
+  white-space: nowrap;
+  border: 1px solid #e2e8f0;
+  background: white;
+  padding: 9px 14px;
+  border-radius: 8px;
+  color: #64748b;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.restaurant-order-filters button.active {
+  background: #2563eb;
+  border-color: #2563eb;
+  color: white;
+}
+
+.restaurant-orders-card {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.restaurant-orders-card-header {
+  padding: 18px 22px;
+  border-bottom: 1px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.restaurant-orders-card-header strong {
+  display: block;
+  font-size: 14px;
+}
+
+.restaurant-orders-card-header span {
+  display: block;
+  margin-top: 3px;
+  color: #64748b;
+  font-size: 11px;
+}
+
+.restaurant-orders-card-header input {
+  width: 230px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 10px 12px;
+  outline: none;
+  font-size: 12px;
+}
+
+.restaurant-orders-table-wrapper {
+  overflow-x: auto;
+}
+
+.restaurant-orders-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 850px;
+}
+
+.restaurant-orders-table th {
+  background: #f8fafc;
+  color: #64748b;
+  font-size: 10px;
+  text-align: left;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  padding: 12px 18px;
+}
+
+.restaurant-orders-table td {
+  border-top: 1px solid #f1f5f9;
+  padding: 15px 18px;
+  font-size: 12px;
+  color: #475569;
+}
+
+.restaurant-orders-table td strong {
+  color: #0f172a;
+}
+
+.restaurant-order-status {
+  display: inline-block;
+  padding: 5px 9px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.restaurant-order-status.preparing {
+  background: #fef3c7;
+  color: #b45309;
+}
+
+.restaurant-order-status.ready {
+  background: #eff6ff;
+  color: #2563eb;
+}
+
+.restaurant-order-status.confirmed {
+  background: #f5f3ff;
+  color: #7c3aed;
+}
+
+.restaurant-order-status.completed {
+  background: #f0fdf4;
+  color: #15803d;
+}
+
+@media (max-width: 700px) {
+  .restaurant-orders-page {
+    padding: 20px;
+  }
+
+  .restaurant-page-header {
+    align-items: flex-start;
+  }
+
+  .restaurant-page-header-actions {
+    display: none;
+  }
+
+  .restaurant-orders-card-header {
+    align-items: flex-start;
+    gap: 14px;
+    flex-direction: column;
+  }
+
+  .restaurant-orders-card-header input {
+    width: 100%;
+  }
+}

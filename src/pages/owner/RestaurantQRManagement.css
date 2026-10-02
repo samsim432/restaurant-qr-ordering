@@ -1,0 +1,203 @@
+.restaurant-qr {
+  min-height: 100vh;
+  background: #f7f8fa;
+  padding: 32px 20px;
+}
+
+.restaurant-qr__shell {
+  width: min(100%, 760px);
+  margin: 0 auto;
+}
+
+.restaurant-qr__back {
+  border: 0;
+  background: transparent;
+  color: #64748b;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 8px 0;
+  cursor: pointer;
+}
+
+.restaurant-qr__card {
+  margin-top: 28px;
+  padding: 42px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 24px;
+  box-shadow: 0 18px 50px rgba(15, 23, 42, 0.06);
+}
+
+.restaurant-qr__brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 19px;
+  font-weight: 700;
+}
+
+.restaurant-qr__logo {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  background: #111827;
+  color: #fff;
+  font-weight: 800;
+}
+
+.restaurant-qr__heading {
+  margin-top: 48px;
+}
+
+.restaurant-qr__eyebrow {
+  margin: 0 0 14px;
+  color: #2563eb;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+.restaurant-qr__heading h1 {
+  margin: 0;
+  color: #0f172a;
+  font-size: clamp(34px, 6vw, 46px);
+  line-height: 1.06;
+  letter-spacing: -0.045em;
+}
+
+.restaurant-qr__heading p {
+  max-width: 560px;
+  margin: 20px 0 0;
+  color: #64748b;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.restaurant-qr__notice {
+  display: grid;
+  gap: 4px;
+  margin-top: 30px;
+  padding: 16px;
+  border: 1px solid #bfdbfe;
+  border-radius: 14px;
+  background: #eff6ff;
+}
+
+.restaurant-qr__notice strong {
+  color: #1d4ed8;
+  font-size: 13px;
+}
+
+.restaurant-qr__notice span {
+  color: #475569;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.restaurant-qr__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-top: 24px;
+}
+
+.restaurant-qr__item {
+  padding: 16px;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+}
+
+.restaurant-qr__visual {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1;
+  border-radius: 10px;
+  background: #f8fafc;
+}
+
+.restaurant-qr__fake-code {
+  width: 72px;
+  height: 72px;
+  display: grid;
+  place-items: center;
+  border: 5px solid #111827;
+  border-radius: 6px;
+}
+
+.restaurant-qr__fake-code span {
+  font-size: 42px;
+  line-height: 1;
+}
+
+.restaurant-qr__item-info {
+  display: grid;
+  gap: 3px;
+  margin-top: 14px;
+}
+
+.restaurant-qr__item-info strong {
+  font-size: 14px;
+}
+
+.restaurant-qr__item-info span {
+  color: #94a3b8;
+  font-size: 11px;
+}
+
+.restaurant-qr__download {
+  width: 100%;
+  margin-top: 12px;
+  padding: 9px;
+  border: 1px solid #dbe1e8;
+  border-radius: 9px;
+  background: #fff;
+  color: #334155;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.restaurant-qr__submit {
+  width: 100%;
+  min-height: 50px;
+  margin-top: 28px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  border: 0;
+  border-radius: 12px;
+  background: #111827;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.restaurant-qr__submit span {
+  font-size: 17px;
+}
+
+.restaurant-qr__note {
+  margin: 20px 0 0;
+  color: #94a3b8;
+  font-size: 11px;
+  line-height: 1.6;
+  text-align: center;
+}
+
+@media (max-width: 650px) {
+  .restaurant-qr {
+    padding: 20px 14px;
+  }
+
+  .restaurant-qr__card {
+    padding: 28px 20px;
+  }
+
+  .restaurant-qr__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
